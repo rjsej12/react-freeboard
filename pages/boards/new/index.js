@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { gql, useMutation } from '@apollo/client';
 import {
 	Wrapper,
 	Title,
@@ -24,6 +25,14 @@ import {
 	Error,
 } from '@/styles/boardwrite.js';
 
+const CREATE_BOARD = gql`
+	mutation CreateBoard($createBoardInput: CreateBoardInput!) {
+		createBoard(createBoardInput: $createBoardInput) {
+			_id
+		}
+	}
+`;
+
 export default function BoardWriteUI() {
 	const [writer, setWriter] = useState('');
 	const [password, setPassword] = useState('');
@@ -34,6 +43,8 @@ export default function BoardWriteUI() {
 	const [passwordError, setPasswordError] = useState('');
 	const [titleError, setTitleError] = useState('');
 	const [contentsError, setContentsError] = useState('');
+
+	const [createBoard] = useMutation(CREATE_BOARD);
 
 	const handleChangeWriter = (e) => {
 		setWriter(e.target.value);
@@ -55,12 +66,26 @@ export default function BoardWriteUI() {
 		if (e.target.value !== '') setContentsError('');
 	};
 
-	const handleClickSubmit = () => {
+	const handleClickSubmit = async () => {
 		if (!writer) setWriterError('작성자를 입력해주세요');
 		if (!password) setPasswordError('비밀번호를 입력해주세요');
 		if (!title) setTitleError('제목을 입력해주세요');
 		if (!contents) setContentsError('내용을 입력해주세요');
-		if (writer && password && title && contents) alert('게시물이 등록되었습니다.');
+
+		if (writer && password && title && contents) {
+			const result = await createBoard({
+				variables: {
+					createBoardInput: {
+						writer,
+						password,
+						title,
+						contents,
+					},
+				},
+			});
+			console.log(result);
+			alert('게시물이 등록되었습니다.');
+		}
 	};
 
 	return (
