@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { gql, useMutation } from '@apollo/client';
+import { useRouter } from 'next/router';
 import {
 	Wrapper,
 	Title,
@@ -26,7 +27,7 @@ import {
 } from '@/styles/boardwrite.js';
 
 const CREATE_BOARD = gql`
-	mutation CreateBoard($createBoardInput: CreateBoardInput!) {
+	mutation createBoard($createBoardInput: CreateBoardInput!) {
 		createBoard(createBoardInput: $createBoardInput) {
 			_id
 		}
@@ -34,6 +35,8 @@ const CREATE_BOARD = gql`
 `;
 
 export default function BoardWriteUI() {
+	const router = useRouter();
+
 	const [writer, setWriter] = useState('');
 	const [password, setPassword] = useState('');
 	const [title, setTitle] = useState('');
@@ -73,18 +76,22 @@ export default function BoardWriteUI() {
 		if (!contents) setContentsError('내용을 입력해주세요');
 
 		if (writer && password && title && contents) {
-			const result = await createBoard({
-				variables: {
-					createBoardInput: {
-						writer,
-						password,
-						title,
-						contents,
+			try {
+				const result = await createBoard({
+					variables: {
+						createBoardInput: {
+							writer,
+							password,
+							title,
+							contents,
+						},
 					},
-				},
-			});
-			console.log(result);
-			alert('게시물이 등록되었습니다.');
+				});
+
+				router.push(`/boards/${result.data.createBoard._id}`);
+			} catch (error) {
+				alert(error.message);
+			}
 		}
 	};
 
