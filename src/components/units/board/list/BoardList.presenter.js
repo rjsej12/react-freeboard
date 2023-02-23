@@ -14,14 +14,16 @@ export default function BoardListUI(props) {
 			{props.data?.fetchBoards.map((el) => (
 				<S.Row key={el._id}>
 					<S.ColumnBasic>{el._id.slice(-4)}</S.ColumnBasic>
-					<S.ColumnTitle>{el.title}</S.ColumnTitle>
+					<S.ColumnTitle id={el._id} onClick={props.handleClickMoveToBoardDetail}>
+						{el.title}
+					</S.ColumnTitle>
 					<S.ColumnBasic>{el.writer}</S.ColumnBasic>
 					<S.ColumnBasic>{getDate(el.createdAt)}</S.ColumnBasic>
 				</S.Row>
 			))}
 			<S.TableBottom />
 			<S.Footer>
-				<S.Button>
+				<S.Button onClick={props.handleClickMoveToBoardNew}>
 					<S.PencilIcon src="/images/board/list/write.svg" />
 					게시물 등록하기
 				</S.Button>
