@@ -1,6 +1,6 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { FETCH_BOARD } from './BoardDetail.queries';
+import { DELETE_BOARD, FETCH_BOARD } from './BoardDetail.queries';
 import BoardDetailUI from './BoardDetail.presenter';
 
 export default function BoardDetail() {
@@ -10,5 +10,17 @@ export default function BoardDetail() {
 		variables: { boardId: router.query.boardId },
 	});
 
-	return data ? <BoardDetailUI data={data} /> : '로딩중입니다';
+	const [deleteBoard] = useMutation(DELETE_BOARD);
+
+	const handleClickDeleteButton = (e) => {
+		deleteBoard({
+			variables: {
+				boardId: router.query.boardId,
+			},
+		});
+
+		router.replace('/boards');
+	};
+
+	return data ? <BoardDetailUI data={data} handleClickDeleteButton={handleClickDeleteButton} /> : '로딩중입니다';
 }
