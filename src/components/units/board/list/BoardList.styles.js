@@ -45,6 +45,12 @@ export const ColumnBasic = styled.div`
 export const ColumnTitle = styled.div`
 	width: 70%;
 	text-align: center;
+	cursor: pointer;
+
+	:hover {
+		font-weight: 700;
+		color: #000000;
+	}
 `;
 
 export const Footer = styled.div`
@@ -69,4 +75,8 @@ export const Button = styled.button`
 	justify-content: space-evenly;
 	align-items: center;
 	cursor: pointer;
+
+	:hover {
+		background-color: #ffd600;
+	}
 `;
