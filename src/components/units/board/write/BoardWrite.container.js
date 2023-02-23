@@ -7,6 +7,8 @@ import BoardWriteUI from './BoardWrite.presenter';
 export default function BoardWrite() {
 	const router = useRouter();
 
+	const [isActive, setIsActive] = useState(false);
+
 	const [writer, setWriter] = useState('');
 	const [password, setPassword] = useState('');
 	const [title, setTitle] = useState('');
@@ -22,21 +24,37 @@ export default function BoardWrite() {
 	const handleChangeWriter = (e) => {
 		setWriter(e.target.value);
 		if (e.target.value !== '') setWriterError('');
+
+		if (e.target.value && password && title && contents) {
+			setIsActive(true);
+		} else setIsActive(false);
 	};
 
 	const handleChangePassword = (e) => {
 		setPassword(e.target.value);
 		if (e.target.value !== '') setPasswordError('');
+
+		if (writer && e.target.value && title && contents) {
+			setIsActive(true);
+		} else setIsActive(false);
 	};
 
 	const handleChangeTitle = (e) => {
 		setTitle(e.target.value);
 		if (e.target.value !== '') setTitleError('');
+
+		if (writer && password && e.target.value && contents) {
+			setIsActive(true);
+		} else setIsActive(false);
 	};
 
 	const handleChangeContents = (e) => {
 		setContents(e.target.value);
 		if (e.target.value !== '') setContentsError('');
+
+		if (writer && password && title && e.target.value) {
+			setIsActive(true);
+		} else setIsActive(false);
 	};
 
 	const handleClickSubmit = async () => {
@@ -67,6 +85,7 @@ export default function BoardWrite() {
 
 	return (
 		<BoardWriteUI
+			isActive={isActive}
 			writerError={writerError}
 			passwordError={passwordError}
 			titleError={titleError}

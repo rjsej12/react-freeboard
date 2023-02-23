@@ -135,7 +135,8 @@ export const SubmitButton = styled.button`
 	width: 180px;
 	height: 52px;
 	border: none;
-	background-color: #ffd600;
+	background-color: ${(props) => (props.isActive ? '#ffd600' : '#bdbdbd')};
+	color: ${(props) => (props.isActive ? '#000000' : '#4f4f4f')};
 	cursor: pointer;
 `;
 
