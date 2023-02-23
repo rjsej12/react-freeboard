@@ -1,6 +1,7 @@
 import * as S from './BoardList.styles';
+import { getDate } from '@/src/commons/libraries/utils';
 
-export default function BoardListUI() {
+export default function BoardListUI(props) {
 	return (
 		<S.Wrapper>
 			<S.TableTop />
@@ -10,12 +11,14 @@ export default function BoardListUI() {
 				<S.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>
 				<S.ColumnHeaderBasic>날짜</S.ColumnHeaderBasic>
 			</S.Row>
-			<S.Row>
-				<S.ColumnBasic>id</S.ColumnBasic>
-				<S.ColumnTitle>게시물 제목입니다.</S.ColumnTitle>
-				<S.ColumnBasic>작성자</S.ColumnBasic>
-				<S.ColumnBasic>2022.02.23</S.ColumnBasic>
-			</S.Row>
+			{props.data?.fetchBoards.map((el) => (
+				<S.Row key={el._id}>
+					<S.ColumnBasic>{el._id.slice(-4)}</S.ColumnBasic>
+					<S.ColumnTitle>{el.title}</S.ColumnTitle>
+					<S.ColumnBasic>{el.writer}</S.ColumnBasic>
+					<S.ColumnBasic>{getDate(el.createdAt)}</S.ColumnBasic>
+				</S.Row>
+			))}
 			<S.TableBottom />
 			<S.Footer>
 				<S.Button>
