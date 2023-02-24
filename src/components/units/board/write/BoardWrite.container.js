@@ -127,6 +127,7 @@ export default function BoardWrite(props) {
 			handleClickSubmit={handleClickSubmit}
 			handleClickUpdate={handleClickUpdate}
 			isEdit={props.isEdit}
+			data={props.data}
 		/>
 	);
 }
