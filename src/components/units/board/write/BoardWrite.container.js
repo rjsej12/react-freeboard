@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { CREATE_BOARD } from './BoardWrite.queries';
 import BoardWriteUI from './BoardWrite.presenter';
 
-export default function BoardWrite() {
+export default function BoardWrite(props) {
 	const router = useRouter();
 
 	const [isActive, setIsActive] = useState(false);
@@ -95,6 +95,7 @@ export default function BoardWrite() {
 			handleChangeTitle={handleChangeTitle}
 			handleChangeContents={handleChangeContents}
 			handleClickSubmit={handleClickSubmit}
+			isEdit={props.isEdit}
 		/>
 	);
 }
