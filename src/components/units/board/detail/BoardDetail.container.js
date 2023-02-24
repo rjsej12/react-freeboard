@@ -12,15 +12,35 @@ export default function BoardDetail() {
 
 	const [deleteBoard] = useMutation(DELETE_BOARD);
 
-	const handleClickDeleteButton = (e) => {
-		deleteBoard({
-			variables: {
-				boardId: router.query.boardId,
-			},
-		});
-
-		router.replace('/boards');
+	const handleClickMoveToBoardList = () => {
+		router.push('/boards');
 	};
 
-	return data ? <BoardDetailUI data={data} handleClickDeleteButton={handleClickDeleteButton} /> : '로딩중입니다';
+	const handleClickMoveToBoardEdit = () => {
+		router.push(`/boards/${router.query.boardId}/edit`);
+	};
+
+	const handleClickDeleteButton = async () => {
+		try {
+			await deleteBoard({
+				variables: {
+					boardId: router.query.boardId,
+				},
+			});
+			router.replace('/boards');
+		} catch (error) {
+			alert(error.message);
+		}
+	};
+
+	return data ? (
+		<BoardDetailUI
+			data={data}
+			handleClickMoveToBoardList={handleClickMoveToBoardList}
+			handleClickMoveToBoardEdit={handleClickMoveToBoardEdit}
+			handleClickDeleteButton={handleClickDeleteButton}
+		/>
+	) : (
+		'로딩중입니다'
+	);
 }
