@@ -1,13 +1,21 @@
 import * as S from './BoardWrite.styles';
 
 export default function BoardWriteUI(props) {
+	console.log(props);
+
 	return (
 		<S.Wrapper>
-			<S.Title>게시물 등록</S.Title>
+			<S.Title>게시물 {props.isEdit ? '수정' : '등록'}</S.Title>
 			<S.WriterWrapper>
 				<S.InputWrapper>
 					<S.Label>작성자</S.Label>
-					<S.Writer type="text" placeholder="이름을 적어주세요." onChange={props.handleChangeWriter} />
+					<S.Writer
+						type="text"
+						placeholder="이름을 적어주세요."
+						onChange={props.handleChangeWriter}
+						defaultValue={props.data?.fetchBoard.writer}
+						readOnly={!!props.data?.fetchBoard.writer}
+					/>
 					<S.Error>{props.writerError}</S.Error>
 				</S.InputWrapper>
 				<S.InputWrapper>
@@ -22,12 +30,21 @@ export default function BoardWriteUI(props) {
 			</S.WriterWrapper>
 			<S.InputWrapper>
 				<S.Label>제목</S.Label>
-				<S.Subject type="text" placeholder="제목을 작성해주세요." onChange={props.handleChangeTitle} />
+				<S.Subject
+					type="text"
+					placeholder="제목을 작성해주세요."
+					onChange={props.handleChangeTitle}
+					defaultValue={props.data?.fetchBoard.title}
+				/>
 				<S.Error>{props.titleError}</S.Error>
 			</S.InputWrapper>
 			<S.InputWrapper>
 				<S.Label>내용</S.Label>
-				<S.Contents placeholder="내용을 작성해주세요." onChange={props.handleChangeContents} />
+				<S.Contents
+					placeholder="내용을 작성해주세요."
+					onChange={props.handleChangeContents}
+					defaultValue={props.data?.fetchBoard.contents}
+				/>
 				<S.Error>{props.contentsError}</S.Error>
 			</S.InputWrapper>
 			<S.InputWrapper>
@@ -57,8 +74,11 @@ export default function BoardWriteUI(props) {
 				<S.RadioLabel htmlFor="image">사진</S.RadioLabel>
 			</S.OptionWrapper>
 			<S.ButtonWrapper>
-				<S.SubmitButton isActive={props.isActive} onClick={props.handleClickSubmit}>
-					등록하기
+				<S.SubmitButton
+					isActive={props.isEdit ? true : props.isActive}
+					onClick={props.isEdit ? props.handleClickUpdate : props.handleClickSubmit}
+				>
+					{props.isEdit ? '수정하기' : '등록하기'}
 				</S.SubmitButton>
 			</S.ButtonWrapper>
 		</S.Wrapper>
