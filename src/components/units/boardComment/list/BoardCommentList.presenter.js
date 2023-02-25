@@ -16,7 +16,11 @@ export default function BoardCommentListUI(props) {
 						</S.MainWrapper>
 						<S.OptionWrapper>
 							<S.UpdateIcon src="/images/boardComment/list/option_update_icon.svg" />
-							<S.DeleteIcon src="/images/boardComment/list/option_delete_icon.svg" />
+							<S.DeleteIcon
+								id={el._id}
+								src="/images/boardComment/list/option_delete_icon.svg"
+								onClick={props.handleClickDelete}
+							/>
 						</S.OptionWrapper>
 					</S.FlexWrapper>
 					<S.DateString>{getDate(el.createdAt)}</S.DateString>
