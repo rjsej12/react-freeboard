@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { FETCH_BOARD_COMMENTS } from '../list/BoardCommentList.queries';
 import BoardCommentWriteUI from './BoardCommentWrite.presenter';
 import { CREATE_BOARD_COMMENT } from './BoardCommentWrite.queries';
 
@@ -37,6 +38,12 @@ export default function BoardCommentWrite() {
 						},
 						boardId: router.query.boardId,
 					},
+					refetchQueries: [
+						{
+							query: FETCH_BOARD_COMMENTS,
+							variables: { boardId: router.query.boardId },
+						},
+					],
 				});
 			} catch (error) {
 				alert(error.message);
@@ -50,6 +57,7 @@ export default function BoardCommentWrite() {
 			handleChangePassword={handleChangePassword}
 			handleChangeContents={handleChangeContents}
 			handleClickWrite={handleClickWrite}
+			writer={writer}
 			contents={contents}
 		/>
 	);
