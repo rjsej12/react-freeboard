@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 export const ItemWrapper = styled.div`
 	width: 1200px;
 	margin: 40px auto;
+	border-bottom: 1px solid #bdbdbd;
+	padding-bottom: 20px;
 `;
 
 export const FlexWrapper = styled.div`
