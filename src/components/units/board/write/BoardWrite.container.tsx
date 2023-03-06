@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { CREATE_BOARD, UPDATE_BOARD } from './BoardWrite.queries';
 import BoardWriteUI from './BoardWrite.presenter';
+import { IBoardWriteProps, IUpdateBoardInput } from './BoardWrite.types';
+import { IMutation, IMutationCreateBoardArgs, IMutationUpdateBoardArgs } from 'src/commons/types/generated/types';
 
-export default function BoardWrite(props) {
+export default function BoardWrite(props: IBoardWriteProps) {
 	const router = useRouter();
 
 	const [isActive, setIsActive] = useState(false);
@@ -19,10 +21,10 @@ export default function BoardWrite(props) {
 	const [titleError, setTitleError] = useState('');
 	const [contentsError, setContentsError] = useState('');
 
-	const [createBoard] = useMutation(CREATE_BOARD);
-	const [updateBoard] = useMutation(UPDATE_BOARD);
+	const [createBoard] = useMutation<Pick<IMutation, 'createBoard'>, IMutationCreateBoardArgs>(CREATE_BOARD);
+	const [updateBoard] = useMutation<Pick<IMutation, 'updateBoard'>, IMutationUpdateBoardArgs>(UPDATE_BOARD);
 
-	const handleChangeWriter = (e) => {
+	const handleChangeWriter = (e: ChangeEvent<HTMLInputElement>) => {
 		setWriter(e.target.value);
 		if (e.target.value !== '') setWriterError('');
 
@@ -31,7 +33,7 @@ export default function BoardWrite(props) {
 		} else setIsActive(false);
 	};
 
-	const handleChangePassword = (e) => {
+	const handleChangePassword = (e: ChangeEvent<HTMLInputElement>) => {
 		setPassword(e.target.value);
 		if (e.target.value !== '') setPasswordError('');
 
@@ -40,7 +42,7 @@ export default function BoardWrite(props) {
 		} else setIsActive(false);
 	};
 
-	const handleChangeTitle = (e) => {
+	const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
 		setTitle(e.target.value);
 		if (e.target.value !== '') setTitleError('');
 
@@ -49,7 +51,7 @@ export default function BoardWrite(props) {
 		} else setIsActive(false);
 	};
 
-	const handleChangeContents = (e) => {
+	const handleChangeContents = (e: ChangeEvent<HTMLTextAreaElement>) => {
 		setContents(e.target.value);
 		if (e.target.value !== '') setContentsError('');
 
@@ -77,14 +79,16 @@ export default function BoardWrite(props) {
 					},
 				});
 
-				router.push(`/boards/${result.data.createBoard._id}`);
+				router.push(`/boards/${result.data?.createBoard._id}`);
 			} catch (error) {
-				alert(error.message);
+				if (error instanceof Error) alert(error.message);
 			}
 		}
 	};
 
 	const handleClickUpdate = async () => {
+		if (typeof router.query.boardId !== 'string') return;
+
 		if (!title && !contents) {
 			alert('수정한 내용이 없습니다.');
 			return;
@@ -95,7 +99,7 @@ export default function BoardWrite(props) {
 			return;
 		}
 
-		const updateBoardInput = {};
+		const updateBoardInput: IUpdateBoardInput = {};
 		if (title) updateBoardInput.title = title;
 		if (contents) updateBoardInput.contents = contents;
 
@@ -107,9 +111,9 @@ export default function BoardWrite(props) {
 					updateBoardInput,
 				},
 			});
-			router.push(`/boards/${result.data.updateBoard._id}`);
+			router.push(`/boards/${result.data?.updateBoard._id}`);
 		} catch (error) {
-			alert(error.message);
+			if (error instanceof Error) alert(error.message);
 		}
 	};
 
