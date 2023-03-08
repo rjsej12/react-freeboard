@@ -2,14 +2,19 @@ import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { DELETE_BOARD, FETCH_BOARD } from './BoardDetail.queries';
 import BoardDetailUI from './BoardDetail.presenter';
-import { IMutation, IMutationDeleteBoardArgs, IQuery, IQueryFetchBoardArgs } from 'src/commons/types/generated/types';
+import type {
+	IMutation,
+	IMutationDeleteBoardArgs,
+	IQuery,
+	IQueryFetchBoardArgs,
+} from 'src/commons/types/generated/types';
 
 export default function BoardDetail() {
 	const router = useRouter();
 
 	if (typeof router.query.boardId !== 'string') {
 		alert('올바르지 않은 게시글 아이디입니다.');
-		router.push('/');
+		void router.push('/');
 		return <></>;
 	}
 
@@ -20,11 +25,16 @@ export default function BoardDetail() {
 	const [deleteBoard] = useMutation<Pick<IMutation, 'deleteBoard'>, IMutationDeleteBoardArgs>(DELETE_BOARD);
 
 	const handleClickMoveToBoardList = () => {
-		router.push('/boards');
+		void router.push('/boards');
 	};
 
 	const handleClickMoveToBoardEdit = () => {
-		router.push(`/boards/${router.query.boardId}/edit`);
+		if (typeof router.query.boardId !== 'string') {
+			alert('올바르지 않은 게시글 아이디입니다.');
+			return;
+		}
+
+		void router.push(`/boards/${router.query.boardId}/edit`);
 	};
 
 	const handleClickDeleteButton = async () => {
@@ -38,7 +48,7 @@ export default function BoardDetail() {
 					boardId: router.query.boardId,
 				},
 			});
-			router.replace('/boards');
+			void router.replace('/boards');
 		} catch (error) {
 			if (error instanceof Error) alert(error.message);
 		}
@@ -52,6 +62,6 @@ export default function BoardDetail() {
 			handleClickDeleteButton={handleClickDeleteButton}
 		/>
 	) : (
-		<>'로딩중입니다'</>
+		<>로딩중입니다</>
 	);
 }

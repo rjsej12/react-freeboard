@@ -1,6 +1,6 @@
 import { getDate } from 'src/commons/libraries/utils';
 import * as S from './BoardDetail.styles';
-import { IBoardDetailUIProps } from './BoardDetail.types';
+import type { IBoardDetailUIProps } from './BoardDetail.types';
 
 export default function BoardDetailUI(props: IBoardDetailUIProps) {
 	return (

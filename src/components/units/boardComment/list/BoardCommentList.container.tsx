@@ -1,7 +1,7 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { useRouter } from 'next/router';
-import { MouseEvent } from 'react';
-import {
+import type { MouseEvent } from 'react';
+import type {
 	IMutation,
 	IMutationDeleteBoardCommentArgs,
 	IQuery,
@@ -14,7 +14,7 @@ export default function BoardCommentList() {
 	const router = useRouter();
 	if (typeof router.query.boardId !== 'string') {
 		alert('올바르지 않은 게시글 아이디입니다.');
-		router.push('/');
+		void router.push('/');
 		return <></>;
 	}
 

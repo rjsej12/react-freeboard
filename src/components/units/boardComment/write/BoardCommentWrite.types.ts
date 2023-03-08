@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import type { ChangeEvent } from 'react';
 
 export interface IBoardCommentWriteUIProps {
 	handleChangeWriter: (e: ChangeEvent<HTMLInputElement>) => void;

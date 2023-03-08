@@ -1,10 +1,11 @@
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { CREATE_BOARD, UPDATE_BOARD } from './BoardWrite.queries';
 import BoardWriteUI from './BoardWrite.presenter';
-import { IBoardWriteProps, IUpdateBoardInput } from './BoardWrite.types';
-import { IMutation, IMutationCreateBoardArgs, IMutationUpdateBoardArgs } from 'src/commons/types/generated/types';
+import type { ChangeEvent } from 'react';
+import type { IBoardWriteProps, IUpdateBoardInput } from './BoardWrite.types';
+import type { IMutation, IMutationCreateBoardArgs, IMutationUpdateBoardArgs } from 'src/commons/types/generated/types';
 
 export default function BoardWrite(props: IBoardWriteProps) {
 	const router = useRouter();
@@ -79,7 +80,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
 					},
 				});
 
-				router.push(`/boards/${result.data?.createBoard._id}`);
+				void router.push(`/boards/${result.data?.createBoard._id ?? ''}`);
 			} catch (error) {
 				if (error instanceof Error) alert(error.message);
 			}
@@ -111,7 +112,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
 					updateBoardInput,
 				},
 			});
-			router.push(`/boards/${result.data?.updateBoard._id}`);
+			void router.push(`/boards/${result.data?.updateBoard._id ?? ''}`);
 		} catch (error) {
 			if (error instanceof Error) alert(error.message);
 		}
