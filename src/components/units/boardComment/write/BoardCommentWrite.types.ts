@@ -5,6 +5,8 @@ export interface IBoardCommentWriteUIProps {
 	handleChangePassword: (e: ChangeEvent<HTMLInputElement>) => void;
 	handleChangeContents: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 	handleClickWrite: () => void;
+	writer: string;
+	password: string;
 	contents: string;
 	setStar: Dispatch<SetStateAction<number>>;
 }
