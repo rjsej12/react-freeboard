@@ -9,6 +9,7 @@ export interface IBoardWriteProps {
 export interface IUpdateBoardInput {
 	title?: string;
 	contents?: string;
+	youtubeUrl?: string;
 }
 
 export interface ISubmitButtonProps {
@@ -25,6 +26,7 @@ export interface IBoardWriteUIProps {
 	handleChangePassword: (e: ChangeEvent<HTMLInputElement>) => void;
 	handleChangeTitle: (e: ChangeEvent<HTMLInputElement>) => void;
 	handleChangeContents: (e: ChangeEvent<HTMLTextAreaElement>) => void;
+	handleChangeYoutubeUrl: (e: ChangeEvent<HTMLInputElement>) => void;
 	handleClickSubmit: () => void;
 	handleClickUpdate: () => void;
 	isEdit: boolean;
