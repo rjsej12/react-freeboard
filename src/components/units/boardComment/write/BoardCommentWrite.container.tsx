@@ -31,10 +31,7 @@ export default function BoardCommentWrite() {
 	};
 
 	const handleClickWrite = async () => {
-		if (typeof router.query.boardId !== 'string') {
-			alert('올바르지 않은 게시글 아이디입니다.');
-			return;
-		}
+		if (typeof router.query.boardId !== 'string') return;
 
 		if (writer && password && contents) {
 			try {
@@ -58,6 +55,10 @@ export default function BoardCommentWrite() {
 			} catch (error) {
 				if (error instanceof Error) alert(error.message);
 			}
+
+			setWriter('');
+			setPassword('');
+			setContents('');
 		}
 	};
 
@@ -67,6 +68,8 @@ export default function BoardCommentWrite() {
 			handleChangePassword={handleChangePassword}
 			handleChangeContents={handleChangeContents}
 			handleClickWrite={handleClickWrite}
+			writer={writer}
+			password={password}
 			contents={contents}
 			setStar={setStar}
 		/>
