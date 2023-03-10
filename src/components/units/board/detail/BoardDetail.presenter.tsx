@@ -18,6 +18,11 @@ export default function BoardDetailUI(props: IBoardDetailUIProps) {
 				<S.Body>
 					<S.Title>{props.data?.fetchBoard.title}</S.Title>
 					<S.Contents>{props.data?.fetchBoard.contents}</S.Contents>
+					<S.YoutubeWrapper>
+						{props.data?.fetchBoard.youtubeUrl && (
+							<S.Youtube url={props.data?.fetchBoard.youtubeUrl} width="486px" height="240px" controls />
+						)}
+					</S.YoutubeWrapper>
 					<S.LikeWrapper>
 						<S.IconWrapper>
 							<S.LikeIcon onClick={props.handleClickLike} />

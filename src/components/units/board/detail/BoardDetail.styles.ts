@@ -1,5 +1,6 @@
 import { DislikeOutlined, LikeOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
+import ReactPlayer from 'react-player';
 
 export const Wrapper = styled.div`
 	width: 1200px;
@@ -124,3 +125,11 @@ export const DisLikeCount = styled.div`
 	color: #828282;
 	font-size: 18px;
 `;
+
+export const YoutubeWrapper = styled.div`
+	display: flex;
+	justify-content: center;
+	margin: 120px 0;
+`;
+
+export const Youtube = styled(ReactPlayer)``;
