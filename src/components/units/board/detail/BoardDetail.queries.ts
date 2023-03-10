@@ -10,6 +10,7 @@ export const FETCH_BOARD = gql`
 			likeCount
 			dislikeCount
 			createdAt
+			youtubeUrl
 		}
 	}
 `;
