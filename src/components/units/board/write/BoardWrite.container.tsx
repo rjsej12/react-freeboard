@@ -16,6 +16,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
 	const [password, setPassword] = useState('');
 	const [title, setTitle] = useState('');
 	const [contents, setContents] = useState('');
+	const [youtubeUrl, setYoutubeUrl] = useState('');
 
 	const [writerError, setWriterError] = useState('');
 	const [passwordError, setPasswordError] = useState('');
@@ -61,6 +62,10 @@ export default function BoardWrite(props: IBoardWriteProps) {
 		} else setIsActive(false);
 	};
 
+	const handleChangeYoutubeUrl = (e: ChangeEvent<HTMLInputElement>) => {
+		setYoutubeUrl(e.target.value);
+	};
+
 	const handleClickSubmit = async () => {
 		if (!writer) setWriterError('작성자를 입력해주세요');
 		if (!password) setPasswordError('비밀번호를 입력해주세요');
@@ -76,6 +81,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
 							password,
 							title,
 							contents,
+							youtubeUrl,
 						},
 					},
 				});
@@ -90,7 +96,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
 	const handleClickUpdate = async () => {
 		if (typeof router.query.boardId !== 'string') return;
 
-		if (!title && !contents) {
+		if (!title && !contents && !youtubeUrl) {
 			alert('수정한 내용이 없습니다.');
 			return;
 		}
@@ -103,6 +109,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
 		const updateBoardInput: IUpdateBoardInput = {};
 		if (title) updateBoardInput.title = title;
 		if (contents) updateBoardInput.contents = contents;
+		if (youtubeUrl) updateBoardInput.youtubeUrl = youtubeUrl;
 
 		try {
 			const result = await updateBoard({
@@ -129,6 +136,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
 			handleChangePassword={handleChangePassword}
 			handleChangeTitle={handleChangeTitle}
 			handleChangeContents={handleChangeContents}
+			handleChangeYoutubeUrl={handleChangeYoutubeUrl}
 			handleClickSubmit={handleClickSubmit}
 			handleClickUpdate={handleClickUpdate}
 			isEdit={props.isEdit}
