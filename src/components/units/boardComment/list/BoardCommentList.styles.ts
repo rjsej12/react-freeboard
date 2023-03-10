@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Rate } from 'antd';
 
 export const ItemWrapper = styled.div`
 	width: 1200px;
@@ -24,6 +25,7 @@ export const MainWrapper = styled.div`
 export const WriterWrapper = styled.div`
 	display: flex;
 	align-items: center;
+	font-size: 20px;
 `;
 
 export const Writer = styled.div`
@@ -37,7 +39,6 @@ export const Contents = styled.div`
 
 export const OptionWrapper = styled.div`
 	display: flex;
-	align-items: center;
 	gap: 16px;
 `;
 
@@ -58,4 +59,9 @@ export const DateString = styled.div`
 	color: #bdbdbd;
 	font-size: 12px;
 	padding-left: 52px;
+`;
+
+export const Star = styled(Rate)`
+	padding-left: 16px;
+	font-size: 20px;
 `;

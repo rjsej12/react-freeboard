@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Rate } from 'antd';
 
 export const Wrapper = styled.div`
 	width: 1200px;
@@ -19,6 +20,7 @@ export const InputWrapper = styled.div`
 	margin-top: 40px;
 	display: flex;
 	gap: 24px;
+	align-items: center;
 `;
 
 export const Input = styled.input`
@@ -68,3 +70,5 @@ export const Button = styled.button`
 	font-weight: 500;
 	cursor: pointer;
 `;
+
+export const Star = styled(Rate)``;

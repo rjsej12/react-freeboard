@@ -11,6 +11,7 @@ export default function BoardCommentWriteUI(props: IBoardCommentWriteUIProps) {
 			<S.InputWrapper>
 				<S.Input type="text" placeholder="작성자" onChange={props.handleChangeWriter} />
 				<S.Input type="password" placeholder="비밀번호" onChange={props.handleChangePassword} />
+				<S.Star onChange={props.setStar} />
 			</S.InputWrapper>
 			<S.ContentsWrapper>
 				<S.Contents
