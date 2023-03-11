@@ -11,12 +11,16 @@ export default function BoardWrite(props: IBoardWriteProps) {
 	const router = useRouter();
 
 	const [isActive, setIsActive] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 
 	const [writer, setWriter] = useState('');
 	const [password, setPassword] = useState('');
 	const [title, setTitle] = useState('');
 	const [contents, setContents] = useState('');
 	const [youtubeUrl, setYoutubeUrl] = useState('');
+	const [zipcode, setZipcode] = useState('');
+	const [address, setAddress] = useState('');
+	const [addressDetail, setAddressDetail] = useState('');
 
 	const [writerError, setWriterError] = useState('');
 	const [passwordError, setPasswordError] = useState('');
@@ -66,6 +70,24 @@ export default function BoardWrite(props: IBoardWriteProps) {
 		setYoutubeUrl(e.target.value);
 	};
 
+	const handleChangeAddressDetail = (e: ChangeEvent<HTMLInputElement>) => {
+		setAddressDetail(e.target.value);
+	};
+
+	const toggleAddressModal = () => {
+		setIsOpen((prev) => !prev);
+	};
+
+	const handleClickAddressSearch = () => {
+		toggleAddressModal();
+	};
+
+	const handleCompleteAddressSearch = (data: any) => {
+		setZipcode(data.zonecode);
+		setAddress(data.address);
+		toggleAddressModal();
+	};
+
 	const handleClickSubmit = async () => {
 		if (!writer) setWriterError('작성자를 입력해주세요');
 		if (!password) setPasswordError('비밀번호를 입력해주세요');
@@ -82,6 +104,11 @@ export default function BoardWrite(props: IBoardWriteProps) {
 							title,
 							contents,
 							youtubeUrl,
+							boardAddress: {
+								zipcode,
+								address,
+								addressDetail,
+							},
 						},
 					},
 				});
@@ -96,7 +123,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
 	const handleClickUpdate = async () => {
 		if (typeof router.query.boardId !== 'string') return;
 
-		if (!title && !contents && !youtubeUrl) {
+		if (!title && !contents && !youtubeUrl && !zipcode && !address && !addressDetail) {
 			alert('수정한 내용이 없습니다.');
 			return;
 		}
@@ -110,6 +137,12 @@ export default function BoardWrite(props: IBoardWriteProps) {
 		if (title) updateBoardInput.title = title;
 		if (contents) updateBoardInput.contents = contents;
 		if (youtubeUrl) updateBoardInput.youtubeUrl = youtubeUrl;
+		if (zipcode || address || addressDetail) {
+			updateBoardInput.boardAddress = {};
+			if (zipcode) updateBoardInput.boardAddress.zipcode = zipcode;
+			if (address) updateBoardInput.boardAddress.address = address;
+			if (addressDetail) updateBoardInput.boardAddress.addressDetail = addressDetail;
+		}
 
 		try {
 			const result = await updateBoard({
@@ -137,10 +170,18 @@ export default function BoardWrite(props: IBoardWriteProps) {
 			handleChangeTitle={handleChangeTitle}
 			handleChangeContents={handleChangeContents}
 			handleChangeYoutubeUrl={handleChangeYoutubeUrl}
+			handleChangeAddressDetail={handleChangeAddressDetail}
+			handleClickAddressSearch={handleClickAddressSearch}
+			handleCompleteAddressSearch={handleCompleteAddressSearch}
 			handleClickSubmit={handleClickSubmit}
 			handleClickUpdate={handleClickUpdate}
 			isEdit={props.isEdit}
 			data={props.data}
+			isOpen={isOpen}
+			zipcode={zipcode}
+			address={address}
+			addressDetail={addressDetail}
+			toggleAddressModal={toggleAddressModal}
 		/>
 	);
 }
