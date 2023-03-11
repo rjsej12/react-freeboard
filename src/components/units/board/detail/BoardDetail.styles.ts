@@ -1,4 +1,4 @@
-import { DislikeOutlined, LikeOutlined } from '@ant-design/icons';
+import { DislikeOutlined, EnvironmentOutlined, LikeOutlined, LinkOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import ReactPlayer from 'react-player';
 
@@ -98,10 +98,7 @@ export const LikeWrapper = styled.div`
 `;
 
 export const IconWrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	gap: 4px;
+	text-align: center;
 `;
 
 export const LikeIcon = styled(LikeOutlined)`
@@ -113,6 +110,7 @@ export const LikeIcon = styled(LikeOutlined)`
 export const LikeCount = styled.div`
 	color: #ffd600;
 	font-size: 18px;
+	margin-top: 4px;
 `;
 
 export const DisLikeIcon = styled(DislikeOutlined)`
@@ -124,6 +122,7 @@ export const DisLikeIcon = styled(DislikeOutlined)`
 export const DisLikeCount = styled.div`
 	color: #828282;
 	font-size: 18px;
+	margin-top: 4px;
 `;
 
 export const YoutubeWrapper = styled.div`
@@ -133,3 +132,15 @@ export const YoutubeWrapper = styled.div`
 `;
 
 export const Youtube = styled(ReactPlayer)``;
+
+export const LinkIcon = styled(LinkOutlined)`
+	font-size: 28px;
+	color: #ffd600;
+	cursor: pointer;
+`;
+
+export const LocationIcon = styled(EnvironmentOutlined)`
+	font-size: 28px;
+	margin-left: 28px;
+	color: #ffd600;
+`;
