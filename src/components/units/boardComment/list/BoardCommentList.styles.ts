@@ -63,5 +63,6 @@ export const DateString = styled.div`
 
 export const Star = styled(Rate)`
 	padding-left: 16px;
+	padding-bottom: 8px;
 	font-size: 20px;
 `;
