@@ -12,9 +12,27 @@ export default function BoardCommentList() {
 		return <></>;
 	}
 
-	const { data } = useQuery<Pick<IQuery, 'fetchBoardComments'>, IQueryFetchBoardCommentsArgs>(FETCH_BOARD_COMMENTS, {
-		variables: { boardId: router.query.boardId },
-	});
+	const { data, fetchMore } = useQuery<Pick<IQuery, 'fetchBoardComments'>, IQueryFetchBoardCommentsArgs>(
+		FETCH_BOARD_COMMENTS,
+		{
+			variables: { boardId: router.query.boardId },
+		}
+	);
 
-	return <BoardCommentListUI data={data} />;
+	const handleLoadMore = () => {
+		if (!data) return;
+
+		void fetchMore({
+			variables: { page: Math.ceil(data?.fetchBoardComments.length / 10) + 1 },
+			updateQuery: (prev, { fetchMoreResult }) => {
+				if (!fetchMoreResult.fetchBoardComments) return { fetchBoardComments: [...prev.fetchBoardComments] };
+
+				return {
+					fetchBoardComments: [...prev.fetchBoardComments, ...fetchMoreResult.fetchBoardComments],
+				};
+			},
+		});
+	};
+
+	return <BoardCommentListUI data={data} handleLoadMore={handleLoadMore} />;
 }
