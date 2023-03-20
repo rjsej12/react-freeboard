@@ -68,6 +68,7 @@ export default function BoardCommentWrite(props: IBoardCommentWriteProps) {
 			setWriter('');
 			setPassword('');
 			setContents('');
+			setStar(0);
 		}
 	};
 
