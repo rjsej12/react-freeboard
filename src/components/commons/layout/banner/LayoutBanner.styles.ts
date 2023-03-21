@@ -1,7 +1,13 @@
 import styled from '@emotion/styled';
 
 export const Wrapper = styled.div`
-	height: 400px;
+	height: 300px;
+	.slick-dots {
+		bottom: 24px;
+		& li button::before {
+			color: white;
+		}
+	}
 `;
 
 export const SliderItem = styled.img`
