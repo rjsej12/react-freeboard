@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { CREATE_BOARD, UPDATE_BOARD } from './BoardWrite.queries';
@@ -21,6 +21,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
 	const [zipcode, setZipcode] = useState('');
 	const [address, setAddress] = useState('');
 	const [addressDetail, setAddressDetail] = useState('');
+	const [fileUrls, setFileUrls] = useState(['', '', '']);
 
 	const [writerError, setWriterError] = useState('');
 	const [passwordError, setPasswordError] = useState('');
@@ -88,6 +89,18 @@ export default function BoardWrite(props: IBoardWriteProps) {
 		toggleAddressModal();
 	};
 
+	const handleChangeFileUrls = (fileUrl: string, index: number) => {
+		const newFileUrls = [...fileUrls];
+		newFileUrls[index] = fileUrl;
+		setFileUrls(newFileUrls);
+	};
+
+	useEffect(() => {
+		if (props.data?.fetchBoard.images?.length) {
+			setFileUrls([...props.data?.fetchBoard.images]);
+		}
+	}, [props.data]);
+
 	const handleClickSubmit = async () => {
 		if (!writer) setWriterError('작성자를 입력해주세요');
 		if (!password) setPasswordError('비밀번호를 입력해주세요');
@@ -109,6 +122,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
 								address,
 								addressDetail,
 							},
+							images: [...fileUrls],
 						},
 					},
 				});
@@ -121,9 +135,13 @@ export default function BoardWrite(props: IBoardWriteProps) {
 	};
 
 	const handleClickUpdate = async () => {
+		const defaultFiles = JSON.stringify(props.data?.fetchBoard.images);
+		const currentFiles = JSON.stringify(fileUrls);
+		const isChangedFiles = defaultFiles !== currentFiles;
+
 		if (typeof router.query.boardId !== 'string') return;
 
-		if (!title && !contents && !youtubeUrl && !zipcode && !address && !addressDetail) {
+		if (!title && !contents && !youtubeUrl && !zipcode && !address && !addressDetail && !isChangedFiles) {
 			alert('수정한 내용이 없습니다.');
 			return;
 		}
@@ -143,6 +161,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
 			if (address) updateBoardInput.boardAddress.address = address;
 			if (addressDetail) updateBoardInput.boardAddress.addressDetail = addressDetail;
 		}
+		if (isChangedFiles) updateBoardInput.images = fileUrls;
 
 		try {
 			const result = await updateBoard({
@@ -173,6 +192,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
 			handleChangeAddressDetail={handleChangeAddressDetail}
 			handleClickAddressSearch={handleClickAddressSearch}
 			handleCompleteAddressSearch={handleCompleteAddressSearch}
+			handleChangeFileUrls={handleChangeFileUrls}
 			handleClickSubmit={handleClickSubmit}
 			handleClickUpdate={handleClickUpdate}
 			isEdit={props.isEdit}
@@ -182,6 +202,7 @@ export default function BoardWrite(props: IBoardWriteProps) {
 			address={address}
 			addressDetail={addressDetail}
 			toggleAddressModal={toggleAddressModal}
+			fileUrls={fileUrls}
 		/>
 	);
 }
