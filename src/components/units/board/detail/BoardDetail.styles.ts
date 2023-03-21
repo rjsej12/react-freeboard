@@ -144,3 +144,14 @@ export const LocationIcon = styled(EnvironmentOutlined)`
 	margin-left: 28px;
 	color: #ffd600;
 `;
+
+export const ImageWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+`;
+
+export const Image = styled.img`
+	width: 400px;
+	margin-bottom: 40px;
+`;

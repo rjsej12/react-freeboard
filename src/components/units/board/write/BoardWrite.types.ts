@@ -15,6 +15,7 @@ export interface IUpdateBoardInput {
 		address?: string;
 		addressDetail?: string;
 	};
+	images?: string[];
 }
 
 export interface ISubmitButtonProps {
@@ -34,7 +35,8 @@ export interface IBoardWriteUIProps {
 	handleChangeYoutubeUrl: (e: ChangeEvent<HTMLInputElement>) => void;
 	handleChangeAddressDetail: (e: ChangeEvent<HTMLInputElement>) => void;
 	handleClickAddressSearch: () => void;
-	handleCompleteAddressSearch: () => void;
+	handleCompleteAddressSearch: (data: any) => void;
+	handleChangeFileUrls: (fileUrl: string, index: number) => void;
 	handleClickSubmit: () => void;
 	handleClickUpdate: () => void;
 	isEdit: boolean;
@@ -44,4 +46,5 @@ export interface IBoardWriteUIProps {
 	address: string;
 	addressDetail: string;
 	toggleAddressModal: () => void;
+	fileUrls: string[];
 }
