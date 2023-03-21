@@ -1,11 +1,18 @@
 import * as S from './BoardList.styles';
-import { getDate } from 'src/commons/libraries/utils';
+import { getDate, splitTextWithKeyword } from 'src/commons/libraries/utils';
 import type { IBoardListUIProps } from './BoardList.types';
 import Pagination from 'src/components/commons/pagination/Pagination.container';
+import Searchbar from 'src/components/commons/searchbar/Searchbar.container';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function BoardListUI(props: IBoardListUIProps) {
 	return (
 		<S.Wrapper>
+			<Searchbar
+				refetch={props.refetch}
+				refetchBoardsCount={props.refetchBoardsCount}
+				handleChangeKeyword={props.handleChangeKeyword}
+			/>
 			<S.TableTop />
 			<S.Row>
 				<S.ColumnHeaderBasic>ID</S.ColumnHeaderBasic>
@@ -17,7 +24,11 @@ export default function BoardListUI(props: IBoardListUIProps) {
 				<S.Row key={el._id}>
 					<S.ColumnBasic>{el._id.slice(-4)}</S.ColumnBasic>
 					<S.ColumnTitle id={el._id} onClick={props.handleClickMoveToBoardDetail}>
-						{el.title}
+						{splitTextWithKeyword(el.title, props.keyword).map((el) => (
+							<S.TextToken key={uuidv4()} isMatched={props.keyword === el}>
+								{el}
+							</S.TextToken>
+						))}
 					</S.ColumnTitle>
 					<S.ColumnBasic>{el.writer}</S.ColumnBasic>
 					<S.ColumnBasic>{getDate(el.createdAt)}</S.ColumnBasic>

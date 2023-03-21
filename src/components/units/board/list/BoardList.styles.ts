@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import type { ITextTokenProps } from './BoardList.types';
 
 export const Wrapper = styled.div`
 	width: 1200px;
@@ -79,4 +80,9 @@ export const Button = styled.button`
 	:hover {
 		background-color: #ffd600;
 	}
+`;
+
+export const TextToken = styled.span`
+	color: ${(props: ITextTokenProps) => (props.isMatched ? '#000000' : '#4F4F4F')};
+	font-weight: ${(props) => (props.isMatched ? '700' : '400')};
 `;

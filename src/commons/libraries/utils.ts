@@ -5,3 +5,8 @@ export const getDate = (value: any) => {
 	const dd = String(date.getDate()).padStart(2, '0');
 	return `${yyyy}-${mm}-${dd}`;
 };
+
+export const splitTextWithKeyword = (text: string, keyword: string) => {
+	const splitKey = '@#$%^';
+	return text.replaceAll(keyword, `${splitKey}${keyword}${splitKey}`).split(splitKey);
+};

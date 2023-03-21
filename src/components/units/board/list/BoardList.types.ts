@@ -9,5 +9,14 @@ export interface IBoardListUIProps {
 	refetch: (
 		variables?: Partial<IQueryFetchBoardsArgs> | undefined
 	) => Promise<ApolloQueryResult<Pick<IQuery, 'fetchBoards'>>>;
+	refetchBoardsCount: (
+		variables?: Partial<IQueryFetchBoardsCountArgs> | undefined
+	) => Promise<ApolloQueryResult<Pick<IQuery, 'fetchBoardsCount'>>>;
 	count?: number;
+	keyword: string;
+	handleChangeKeyword: (value: string) => void;
+}
+
+export interface ITextTokenProps {
+	isMatched: boolean;
 }
