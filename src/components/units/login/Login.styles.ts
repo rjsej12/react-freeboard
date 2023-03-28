@@ -38,7 +38,10 @@ export const Password = styled.input`
 	width: 100%;
 `;
 
-export const Error = styled.div``;
+export const Error = styled.div`
+	color: red;
+	font-size: 12px;
+`;
 
 export const LoginButton = styled.button`
 	padding: 16px 10px;
