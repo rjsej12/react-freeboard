@@ -9,11 +9,18 @@ import type { IMutation, IMutationLoginUserArgs } from 'src/commons/types/genera
 import type { IFormData } from './Login.types';
 import { useRecoilState } from 'recoil';
 import { accessTokenState } from 'src/commons/store';
+import { useEffect } from 'react';
 
 export default function Login() {
 	const router = useRouter();
 	const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
 	const [loginUser] = useMutation<Pick<IMutation, 'loginUser'>, IMutationLoginUserArgs>(LOGIN_USER);
+
+	useEffect(() => {
+		if (localStorage.getItem('accessToken')) {
+			void router.push('/boards');
+		}
+	}, []);
 
 	const { register, handleSubmit, formState } = useForm<IFormData>({
 		resolver: yupResolver(loginSchema),
