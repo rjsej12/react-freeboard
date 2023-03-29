@@ -8,7 +8,7 @@ interface ILayoutProps {
 	children: JSX.Element;
 }
 
-const HIDDEN_LAYOUTS = ['/login'];
+const HIDDEN_LAYOUTS = ['/login', '/signup'];
 
 export default function Layout(props: ILayoutProps) {
 	const router = useRouter();
