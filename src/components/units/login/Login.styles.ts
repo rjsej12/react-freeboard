@@ -38,6 +38,11 @@ export const Password = styled.input`
 	width: 100%;
 `;
 
+export const Name = styled.input`
+	padding: 12px 12px;
+	width: 100%;
+`;
+
 export const Error = styled.div`
 	color: red;
 	font-size: 12px;

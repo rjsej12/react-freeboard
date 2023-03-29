@@ -1,33 +1,35 @@
 import { useForm } from 'react-hook-form';
 import LoginUI from './Login.presenter';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { loginSchema } from './Login.validation';
+import { loginSchema, signupSchema } from './Login.validation';
 import { useRouter } from 'next/router';
 import { useMutation } from '@apollo/client';
-import { LOGIN_USER } from './Login.queries';
-import type { IMutation, IMutationLoginUserArgs } from 'src/commons/types/generated/types';
-import type { IFormData } from './Login.types';
+import { CREATE_USER, LOGIN_USER } from './Login.queries';
+import type { IMutation, IMutationCreateUserArgs, IMutationLoginUserArgs } from 'src/commons/types/generated/types';
+import type { IFormData, ILoginProps } from './Login.types';
 import { useRecoilState } from 'recoil';
 import { accessTokenState } from 'src/commons/store';
 import { useEffect } from 'react';
 
-export default function Login() {
+export default function Login(props: ILoginProps) {
 	const router = useRouter();
 	const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
 	const [loginUser] = useMutation<Pick<IMutation, 'loginUser'>, IMutationLoginUserArgs>(LOGIN_USER);
+	const [createUser] = useMutation<Pick<IMutation, 'createUser'>, IMutationCreateUserArgs>(CREATE_USER);
 
 	useEffect(() => {
+		if (props.isSignup) return;
 		if (localStorage.getItem('accessToken')) {
 			void router.push('/boards');
 		}
 	}, []);
 
 	const { register, handleSubmit, formState } = useForm<IFormData>({
-		resolver: yupResolver(loginSchema),
+		resolver: yupResolver(props.isSignup ? signupSchema : loginSchema),
 		mode: 'onChange',
 	});
 
-	const handleClickSubmit = async (data: IFormData) => {
+	const handleClickLogin = async (data: IFormData) => {
 		try {
 			const { email, password } = data;
 			const result = await loginUser({ variables: { email, password } });
@@ -46,6 +48,23 @@ export default function Login() {
 		}
 	};
 
+	const handleClickSignup = async (data: IFormData) => {
+		try {
+			const { email, password, name } = data;
+			if (!name) return;
+			const createUserInput = { email, password, name };
+			await createUser({
+				variables: {
+					createUserInput,
+				},
+			});
+
+			void router.push('/login');
+		} catch (error) {
+			if (error instanceof Error) alert(error.message);
+		}
+	};
+
 	const handleClickLogo = () => {
 		void router.push('/boards');
 	};
@@ -54,13 +73,19 @@ export default function Login() {
 		void router.push('/signup');
 	};
 
+	const handleClickMoveToLogin = () => {
+		void router.push('/login');
+	};
+
 	return (
 		<LoginUI
 			register={register}
-			handleSubmit={handleSubmit(handleClickSubmit)}
+			handleSubmit={props.isSignup ? handleSubmit(handleClickSignup) : handleSubmit(handleClickLogin)}
 			formState={formState}
 			handleClickLogo={handleClickLogo}
 			handleClickMoveToSignUp={handleClickMoveToSignUp}
+			handleClickMoveToLogin={handleClickMoveToLogin}
+			isSignup={props.isSignup}
 		/>
 	);
 }

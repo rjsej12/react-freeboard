@@ -13,11 +13,26 @@ export default function LoginUI(props: ILoginUIProps) {
 				<S.Error>{props.formState.errors.email?.message}</S.Error>
 				<S.Password type="password" placeholder="비밀번호를 입력하세요" {...props.register('password')} />
 				<S.Error>{props.formState.errors.password?.message}</S.Error>
-				<S.LoginButton>로그인</S.LoginButton>
+				{props.isSignup && (
+					<>
+						<S.Name type="text" placeholder="이름을 입력하세요" {...props.register('name')} />
+						<S.Error>{props.formState.errors.name?.message}</S.Error>
+					</>
+				)}
+				<S.LoginButton>{props.isSignup ? '가입하기' : '로그인'}</S.LoginButton>
 			</S.LoginForm>
 			<S.InnerWrapper>
-				<S.Text>아직 회원이 아니시라면?</S.Text>
-				<S.MoveToSignUp onClick={props.handleClickMoveToSignUp}>회원가입</S.MoveToSignUp>
+				{props.isSignup ? (
+					<>
+						<S.Text>이미 회원이시라면?</S.Text>
+						<S.MoveToSignUp onClick={props.handleClickMoveToLogin}>로그인</S.MoveToSignUp>
+					</>
+				) : (
+					<>
+						<S.Text>아직 회원이 아니시라면?</S.Text>
+						<S.MoveToSignUp onClick={props.handleClickMoveToSignUp}>회원가입</S.MoveToSignUp>
+					</>
+				)}
 			</S.InnerWrapper>
 		</S.Wrapper>
 	);
